@@ -21,17 +21,20 @@ platform :ios do
   desc 'Build ipa'
   lane :beta do
     # if you can use `match`, you use `match`.
-    setup_provisioning_profiles
+    # setup_provisioning_profiles
+
+    match(
+      type: "enterprise",
+      readonly: true
+    )
 
     build_app(
       scheme: SCHEME_DEV,
-      export_method: 'ad-hoc',
-      export_options: {
-        provisioningProfiles: {
-          BUNDLE_ID_DEV => PROVISIONING_PROFILE_NAME_DEV
-        }
-      },
-      xcargs: "DEVELOPMENT_TEAM='#{TEAM_ID}' PROVISIONING_PROFILE_SPECIFIER='#{PROVISIONING_PROFILE_NAME_DEV}'"
+      export_method: 'enterprise',
+    )
+    message = "Commit: #{ENV['CIRCLE_SHA1']} / #{last_git_commit[:message]}, Build: #{ENV['CIRCLE_BUILD_NUM']}"
+    deploygate(
+      message: message
     )
   end
 
