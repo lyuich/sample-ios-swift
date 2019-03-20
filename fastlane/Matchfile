@@ -1,4 +1,4 @@
-git_url("https://github.com/lyuich/certificates")
+git_url("git@github.com:lyuich/certificates.git")
 
 type("enterprise") # The default type, can be: appstore, adhoc, enterprise or development
 
